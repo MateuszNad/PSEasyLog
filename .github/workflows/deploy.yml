@@ -1,0 +1,45 @@
+name: Publish PowerShell module
+
+# Ustawiamy, kiedy przepływ zostanie uruchomiona. Wyzwalaczem będzie push do gałęzi master
+on:
+  push:
+    branches: [master]
+
+# Definiujemy jeden lub więcej zadań
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          Install-Module Pester -Force
+          Install-Module PSScriptAnalyzer -Force
+
+      - name: Run script analyze
+        shell: powershell
+        run: |
+          Invoke-Pester -Strict -PassThru
+
+      - name: Run test
+        shell: powershell
+        run: |
+          $scriptAnalyzerParams = @{
+            Path        = "$($env:GITHUB_WORKSPACE)\public"
+            Severity    = @('Error', 'Warning')
+            Recurse     = $true
+            Verbose     = $false
+            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
+          }
+          Invoke-ScriptAnalyzer @scriptAnalyzerParams
+
+      - name: Publish
+        env:
+          NuGetApiKey: ${{ secrets.NUGET_KEY }}
+        shell: powershell
+        run: |
+          Register-PackageSource -Name PoshTestGallery -Location 'https://www.poshtestgallery.com/api/v2/' -ProviderName PowerShellGet
+          Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey -Repository PoshTestGallery
