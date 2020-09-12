@@ -23,7 +23,9 @@ jobs:
         shell: powershell
         run: |
           Import-Module -Name Pester -MaximumVersion 4.10.1
-          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0){Throw 'Failed  unit tests.'}
+          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0){
+            Throw 'Failed  unit tests.'
+          }
 
       - name: Run script analyze
         shell: powershell
@@ -36,7 +38,9 @@ jobs:
             ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
           }
           # , 'PSAvoidOverwritingBuiltInCmdlets'
-          Invoke-ScriptAnalyzer @scriptAnalyzerParams
+          if(Invoke-ScriptAnalyzer @scriptAnalyzerParams) {
+            Throw "One or more PSScriptAnalyzer errors/warnings where found."
+          }
 
       - name: Publish
         env:
