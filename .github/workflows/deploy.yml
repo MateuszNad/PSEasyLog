@@ -39,7 +39,7 @@ jobs:
           }
           # , 'PSAvoidOverwritingBuiltInCmdlets'
           Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable $ResultScriptAnalyzer
-          if($$ResultScriptAnalyzer) {
+          if($ResultScriptAnalyzer) {
             Throw "One or more PSScriptAnalyzer errors/warnings where found."
           }
 
