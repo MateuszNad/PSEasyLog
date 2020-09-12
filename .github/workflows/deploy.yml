@@ -17,7 +17,7 @@ jobs:
         shell: powershell
         run: |
           Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
-          # Install-Module -Name PSScriptAnalyzer -Force
+          Install-Module -Name PSScriptAnalyzer -Force
 
       - name: Run test
         shell: powershell
@@ -33,8 +33,9 @@ jobs:
             Severity    = @('Error', 'Warning')
             Recurse     = $true
             Verbose     = $false
-            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
+            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
           }
+          # , 'PSAvoidOverwritingBuiltInCmdlets'
           Invoke-ScriptAnalyzer @scriptAnalyzerParams
 
       - name: Publish
