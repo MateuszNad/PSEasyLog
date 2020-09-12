@@ -38,7 +38,7 @@ jobs:
             ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
           }
           # , 'PSAvoidOverwritingBuiltInCmdlets'
-          Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable $ResultScriptAnalyzer
+          Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable ResultScriptAnalyzer
           if($ResultScriptAnalyzer) {
             Throw "One or more PSScriptAnalyzer errors/warnings where found."
           }
