@@ -34,10 +34,8 @@ jobs:
             Path        = "$($env:GITHUB_WORKSPACE)\public"
             Severity    = @('Error', 'Warning')
             Recurse     = $true
-            Verbose     = $false
-            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments'
+            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
           }
-          # , 'PSAvoidOverwritingBuiltInCmdlets'
           Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable ResultScriptAnalyzer
           if($ResultScriptAnalyzer) {
             Throw "One or more PSScriptAnalyzer errors/warnings where found."
@@ -47,4 +45,5 @@ jobs:
         env:
           NuGetApiKey: ${{ secrets.NUGET_KEY }}
         shell: powershell
-        run: Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
+        run: |
+          Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
