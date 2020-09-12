@@ -14,7 +14,7 @@ Describe "$module Module Tests" {
         }
 
         It "$module folder has functions" {
-            "$here\publica\*.ps1" | Should -Exist
+            "$here\public\*.ps1" | Should -Exist
         }
 
         It "$module is valid PowerShell code" {
