@@ -1,6 +1,7 @@
 name: Publish PowerShell module
 
-# Ustawiamy, kiedy przepływ zostanie uruchomiona. Wyzwalaczem będzie push do gałęzi master
+# Ustawiamy, kiedy przepływ zostanie uruchomiona.
+# Wyzwalaczem będzie push do gałęzi master
 on:
   push:
     branches: [master]
@@ -8,25 +9,32 @@ on:
 # Definiujemy jeden lub więcej zadań
 jobs:
   publish:
+    # https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
+    #  Wybór maszyny gdzie zostaną uruchamiane akcje i polecenia
     runs-on: windows-latest
 
     steps:
+      # pobranie repozytorium do maszyny
       - uses: actions/checkout@v2
 
+      # wykonanie poleceń powershell
+      # pobranie niezbenych modulow
       - name: Install dependencies
         shell: powershell
         run: |
           Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
           Install-Module -Name PSScriptAnalyzer -Force
 
+      # wykonanie testow
       - name: Run test
         shell: powershell
         run: |
           Import-Module -Name Pester -MaximumVersion 4.10.1
-          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0){
+          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
             Throw 'Failed  unit tests.'
           }
 
+      # analiza kodu
       - name: Run script analyze
         shell: powershell
         run: |
@@ -41,8 +49,10 @@ jobs:
             Throw "One or more PSScriptAnalyzer errors/warnings where found."
           }
 
+      # publikacja do repozytorium
       - name: Publish
         env:
+          # pobranie do zmiennej klucza API
           NuGetApiKey: ${{ secrets.NUGET_KEY }}
         shell: powershell
         run: |
