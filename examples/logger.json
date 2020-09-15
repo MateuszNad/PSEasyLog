@@ -1,0 +1,15 @@
+﻿{
+    "DateTime":  "wtorek, 15 września 2020 21:25:17",
+    "Stream":  "Verbose",
+    "Message":  "Verbose message"
+}
+{
+    "DateTime":  "wtorek, 15 września 2020 21:25:17",
+    "Stream":  "Warning",
+    "Message":  "Warning message"
+}
+{
+    "DateTime":  "wtorek, 15 września 2020 21:25:17",
+    "Stream":  "Error",
+    "Message":  "Nastąpiła próba podzielenia przez zero."
+}

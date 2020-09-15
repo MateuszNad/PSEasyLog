@@ -5,6 +5,11 @@
 .EXAMPLE
     Write-Error $_.Exception.Message
 
+.EXAMPLE
+    Write-Error -Message 'Error message' -FilePath 'D:\test.log'
+
+    Save a error message to custome the log file
+
 .NOTES
     Author: Mateusz Nadobnik
     Link: akademiapowershell.pl
@@ -70,13 +75,18 @@ function Write-Error
         ${CategoryTargetType},
 
         [Parameter(Mandatory = $false, Position = 1)]
-        ${$FilePath} = $PWD.Path)
+        ${FilePath} = (Join-Path $PWD.Path -ChildPath 'logger.json')
+    )
 
     begin
     {
         try
         {
-            $FilePath = Join-Path $PWD.Path -ChildPath 'logger.json'
+            if ($null -ne $FilePath)
+            {
+                $PSBoundParameters.Remove('FilePath')
+            }
+
             $Log = [PSCustomObject]@{
                 'DateTime' = (Get-Date).DateTime
                 'Stream'   = 'Error'

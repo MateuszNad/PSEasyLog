@@ -3,8 +3,12 @@
     Write-Verbose -Message 'Verbose' -Verbose
 
 .EXAMPLE
-    Write-Verbose -Message 'Verbose'
+    Write-Verbose -Message 'Verbose' -Verbose
 
+.EXAMPLE
+    Write-Verbose -Message 'Verbose message' -FilePath 'D:\test.log' -Verbose
+
+    Save a verbose message to custome the log file
 .NOTES
     Author: Mateusz Nadobnik
     Link: akademiapowershell.pl
@@ -25,16 +29,20 @@ function Write-Verbose
         [string]
         ${Message},
         [Parameter(Mandatory = $false, Position = 1)]
-        ${$FilePath} = $PWD.Path
+        ${FilePath} = (Join-Path $PWD.Path -ChildPath 'logger.json')
     )
 
     begin
     {
         try
         {
+            if ($null -ne $FilePath)
+            {
+                $PSBoundParameters.Remove('FilePath')
+            }
+
             if ($VerbosePreference -eq 'Continue')
             {
-                $FilePath = Join-Path $PWD.Path -ChildPath 'logger.json'
                 $Log = [PSCustomObject]@{
                     'DateTime' = (Get-Date).DateTime
                     'Stream'   = 'Verbose'
@@ -48,6 +56,7 @@ function Write-Verbose
             {
                 $PSBoundParameters['OutBuffer'] = 1
             }
+
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Write-Verbose', [System.Management.Automation.CommandTypes]::Cmdlet)
             $scriptCmd = { & $wrappedCmd @PSBoundParameters }
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
