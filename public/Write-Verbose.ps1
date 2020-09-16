@@ -3,9 +3,6 @@
     Write-Verbose -Message 'Verbose' -Verbose
 
 .EXAMPLE
-    Write-Verbose -Message 'Verbose' -Verbose
-
-.EXAMPLE
     Write-Verbose -Message 'Verbose message' -FilePath 'D:\test.log' -Verbose
 
     Save a verbose message to custome the log file
@@ -26,8 +23,7 @@ function Write-Verbose
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
         [Alias('Msg')]
         [AllowEmptyString()]
-        [string]
-        ${Message},
+        [string]${Message},
         [Parameter(Mandatory = $false, Position = 1)]
         ${FilePath} = (Join-Path $PWD.Path -ChildPath 'logger.json')
     )
@@ -36,20 +32,20 @@ function Write-Verbose
     {
         try
         {
-            if ($null -ne $FilePath)
+            if ($null -ne $PSBoundParameters['FilePath'])
             {
                 $PSBoundParameters.Remove('FilePath')
             }
+            # $script:VerbosePreference
+            # $Function:VerbosePreference
+            # $private:VerbosePreference
 
-            if ($VerbosePreference -eq 'Continue')
-            {
-                $Log = [PSCustomObject]@{
-                    'DateTime' = (Get-Date).DateTime
-                    'Stream'   = 'Verbose'
-                    'Message'  = $Message
-                }
-                Add-Content -Encoding UTF8 -Value ($Log | ConvertTo-Json) -Path $FilePath
+            $Log = [PSCustomObject]@{
+                'DateTime' = (Get-Date).DateTime
+                'Stream'   = 'Verbose'
+                'Message'  = $Message
             }
+            Add-Content -Encoding UTF8 -Value ($Log | ConvertTo-Json) -Path $FilePath
 
             $outBuffer = $null
             if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer))

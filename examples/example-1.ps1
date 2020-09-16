@@ -1,12 +1,15 @@
+
 function New-CustomVm
 {
     [cmdletbinding()]
-    param()
+    param(
+    )
 
     try
     {
+        # Remove-Item -Verbose -Path 'C:\mgotest.txt' -ErrorAction Stop
         # ...
-        Write-Verbose -Message 'Verbose message' -Verbose
+        Write-Verbose -Message 'Verbose message'
 
         # ...
         Write-Warning -Message 'Warning message'
@@ -18,6 +21,5 @@ function New-CustomVm
         Write-Error -Message $_.Exception.Message
     }
 }
-
 Import-Module PSEasyLog
-New-CustomVm -Verbose
+New-CustomVm

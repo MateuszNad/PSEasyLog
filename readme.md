@@ -8,15 +8,34 @@ The module overwrites natives Write-Verbose, Write-Warning, and Write-Error cmdl
 
 Copy and Paste the following command to install PSEasyLog.
 
-```
+```powershell
 Install-Module -Name PSEasyLog
 ```
+
+## Import Module
+
+Importing the module overwrites native commands.
+
+```powershell
+Import-Module -Name PSEasyLog
+```
+
+> ⚡ The module changes the Verbose preference for script scope.
+
+## Remove Module
+
+Removing the module restores native commands.
+
+```powershell
+Remove-Module -Name PSEasyLog
+```
+
 
 ## Examples
 
 If you want to add logging to your script you only need to import the module.
 
-Write-Verbose, Write-Warning, and Write-Error commands will have an additional feature.  Commands will save messages to a file where a default file name is logger.json.
+Write-Verbose, Write-Warning, and Write-Error commands will have an additional feature. Commands will save messages to a file where a default file name is logger.json.
 
 ```powershell
 function New-CustomVm
@@ -38,7 +57,7 @@ function New-CustomVm
     }
 }
 Import-Module PSEasyLog
-New-CustomVm -Verbose
+New-CustomVm
 ```
 Result in the file:
 

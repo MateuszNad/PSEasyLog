@@ -82,7 +82,7 @@ function Write-Error
     {
         try
         {
-            if ($null -ne $FilePath)
+            if ($null -ne $PSBoundParameters['FilePath'])
             {
                 $PSBoundParameters.Remove('FilePath')
             }

@@ -33,7 +33,7 @@ function Write-Warning
     {
         try
         {
-            if ($null -ne $FilePath)
+            if ($null -ne $PSBoundParameters['FilePath'])
             {
                 $PSBoundParameters.Remove('FilePath')
             }
