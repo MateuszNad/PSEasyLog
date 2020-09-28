@@ -23,7 +23,7 @@ jobs:
         shell: powershell
         run: |
           Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
-          Install-Module -Name PSScriptAnalyzer -Force
+          # Install-Module -Name PSScriptAnalyzer -Force
 
       # wykonanie testow
       - name: Run test
