@@ -34,21 +34,6 @@ jobs:
             Throw 'Failed  unit tests.'
           }
 
-      # # analiza kodu
-      # - name: Run script analyze
-      #   shell: powershell
-      #   run: |
-      #     $scriptAnalyzerParams = @{
-      #       Path        = "$($env:GITHUB_WORKSPACE)\public"
-      #       Severity    = @('Error', 'Warning')
-      #       Recurse     = $true
-      #       ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
-      #     }
-      #     Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable ResultScriptAnalyzer
-      #     if($ResultScriptAnalyzer) {
-      #       Throw "One or more PSScriptAnalyzer errors/warnings where found."
-      #     }
-
       # analiza kody - Super Linter
       - name: Run script analiza
         uses: github/super-linter@v3
