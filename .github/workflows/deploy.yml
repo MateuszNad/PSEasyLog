@@ -23,7 +23,7 @@ jobs:
         shell: powershell
         run: |
           Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
-          Install-Module -Name PSScriptAnalyzer -Force
+          # Install-Module -Name PSScriptAnalyzer -Force
 
       # wykonanie testow
       - name: Run test
@@ -34,20 +34,28 @@ jobs:
             Throw 'Failed  unit tests.'
           }
 
-      # analiza kodu
-      - name: Run script analyze
-        shell: powershell
-        run: |
-          $scriptAnalyzerParams = @{
-            Path        = "$($env:GITHUB_WORKSPACE)\public"
-            Severity    = @('Error', 'Warning')
-            Recurse     = $true
-            ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
-          }
-          Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable ResultScriptAnalyzer
-          if($ResultScriptAnalyzer) {
-            Throw "One or more PSScriptAnalyzer errors/warnings where found."
-          }
+      # # analiza kodu
+      # - name: Run script analyze
+      #   shell: powershell
+      #   run: |
+      #     $scriptAnalyzerParams = @{
+      #       Path        = "$($env:GITHUB_WORKSPACE)\public"
+      #       Severity    = @('Error', 'Warning')
+      #       Recurse     = $true
+      #       ExcludeRule = 'PSUseDeclaredVarsMoreThanAssignments', 'PSAvoidOverwritingBuiltInCmdlets'
+      #     }
+      #     Invoke-ScriptAnalyzer @scriptAnalyzerParams -OutVariable ResultScriptAnalyzer
+      #     if($ResultScriptAnalyzer) {
+      #       Throw "One or more PSScriptAnalyzer errors/warnings where found."
+      #     }
+
+      # analiza kody - Super Linter
+      - name: Run script analiza
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # publikacja do repozytorium
       - name: Publish
