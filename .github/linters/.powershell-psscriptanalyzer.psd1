@@ -13,6 +13,6 @@
     #)
     ExcludeRules = @(
         'PSUseDeclaredVarsMoreThanAssignments'
-        # ,'PSAvoidOverwritingBuiltInCmdlets'
+        , 'PSAvoidOverwritingBuiltInCmdlets'
     )
 }
