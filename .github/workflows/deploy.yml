@@ -17,22 +17,22 @@ jobs:
       # pobranie repozytorium do maszyny
       - uses: actions/checkout@v2
 
-      # wykonanie poleceń powershell
-      # pobranie niezbenych modulow
-      - name: Install dependencies
-        shell: powershell
-        run: |
-          Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
-          # Install-Module -Name PSScriptAnalyzer -Force
+      # # wykonanie poleceń powershell
+      # # pobranie niezbenych modulow
+      # - name: Install dependencies
+      #   shell: powershell
+      #   run: |
+      #     Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
+      #     # Install-Module -Name PSScriptAnalyzer -Force
 
-      # wykonanie testow
-      - name: Run test
-        shell: powershell
-        run: |
-          Import-Module -Name Pester -MaximumVersion 4.10.1
-          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
-            Throw 'Failed  unit tests.'
-          }
+      # # wykonanie testow
+      # - name: Run test
+      #   shell: powershell
+      #   run: |
+      #     Import-Module -Name Pester -MaximumVersion 4.10.1
+      #     if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
+      #       Throw 'Failed  unit tests.'
+      #     }
 
       # analiza kody - Super Linter
       - name: Run script analiza
