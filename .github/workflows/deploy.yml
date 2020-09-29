@@ -26,7 +26,7 @@ jobs:
   # Definiujemy jeden lub więcej zadań
   publish:
     # dodanie zaleznosci
-    needs: analiza
+    needs: analyze
 
     # https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
     #  Wybór maszyny gdzie zostaną uruchamiane akcje i polecenia
