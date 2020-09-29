@@ -1,6 +1,7 @@
 # PSEasyLog
 
 ![Publish](https://github.com/MateuszNad/PSEasyLog/workflows/Publish%20PowerShell%20module/badge.svg)
+[![GitHub Super-Linter](https://github.com/MateuszNad/PSEasyLog/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 The module overwrites natives Write-Verbose, Write-Warning, and Write-Error cmdlet which helps easily add logging to scripts.
 

@@ -6,34 +6,11 @@ on:
   push:
     branches: [master]
 
-# Definiujemy jeden lub więcej zadań
 jobs:
-  publish:
-    # https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
-    #  Wybór maszyny gdzie zostaną uruchamiane akcje i polecenia
+  analyze:
     runs-on: ubuntu-latest
 
     steps:
-      # pobranie repozytorium do maszyny
-      - uses: actions/checkout@v2
-
-      # wykonanie poleceń powershell
-      # pobranie niezbenych modulow
-      - name: Install dependencies
-        shell: pwsh
-        run: |
-          Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
-          # Install-Module -Name PSScriptAnalyzer -Force
-
-      # wykonanie testow
-      - name: Run test
-        shell: pwsh
-        run: |
-          Import-Module -Name Pester -MaximumVersion 4.10.1
-          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
-            Throw 'Failed  unit tests.'
-          }
-
       # analiza kody - Super Linter
       - name: Run script analiza
         uses: github/super-linter@v3
@@ -43,11 +20,37 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # publikacja do repozytorium
-      - name: Publish
-        env:
-          # pobranie do zmiennej klucza API
-          NuGetApiKey: ${{ secrets.NUGET_KEY }}
-        shell: pwsh
+  # Definiujemy jeden lub więcej zadań
+  publish:
+    # https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
+    #  Wybór maszyny gdzie zostaną uruchamiane akcje i polecenia
+    runs-on: windows-latest
+
+    steps:
+      # pobranie repozytorium do maszyny
+      - uses: actions/checkout@v2
+
+      # wykonanie poleceń powershell
+      # pobranie niezbenych modulow
+      - name: Install dependencies
+        shell: powershell
         run: |
-          Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
+          Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
+          # Install-Module -Name PSScriptAnalyzer -Force
+
+      # wykonanie testow
+      - name: Run test
+        shell: powershell
+        run: |
+          Import-Module -Name Pester -MaximumVersion 4.10.1
+          if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
+            Throw 'Failed  unit tests.'
+          }
+      # publikacja do repozytorium
+      # - name: Publish
+      #   env:
+      #     # pobranie do zmiennej klucza API
+      #     NuGetApiKey: ${{ secrets.NUGET_KEY }}
+      #   shell: pwsh
+      #   run: |
+      #     Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
