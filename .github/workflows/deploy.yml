@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # analiza kody - Super Linter
-      - name: Run script analiza
+      - name: Lint Code Base
         uses: github/super-linter@v3
         env:
           VALIDATE_JSON: false
