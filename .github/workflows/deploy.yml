@@ -6,31 +6,12 @@ on:
   push:
     branches: [master]
 
+# Definiujemy jeden lub więcej zadań
 jobs:
-  analyze:
-    runs-on: ubuntu-latest
-
-    steps:
-      # pobranie repozytorium do maszyny
-      - uses: actions/checkout@v2
-
-      # analiza kody - Super Linter
-      - name: Lint Code Base
-        uses: github/super-linter@v3
-        env:
-          VALIDATE_JSON: false
-          VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # Definiujemy jeden lub więcej zadań
   publish:
-    # dodanie zaleznosci
-    needs: analyze
-
     # https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
     #  Wybór maszyny gdzie zostaną uruchamiane akcje i polecenia
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       # pobranie repozytorium do maszyny
@@ -39,24 +20,34 @@ jobs:
       # wykonanie poleceń powershell
       # pobranie niezbenych modulow
       - name: Install dependencies
-        shell: powershell
+        shell: pwsh
         run: |
           Install-Module -Name Pester -RequiredVersion 4.10.1 -Force
           # Install-Module -Name PSScriptAnalyzer -Force
 
       # wykonanie testow
       - name: Run test
-        shell: powershell
+        shell: pwsh
         run: |
           Import-Module -Name Pester -MaximumVersion 4.10.1
           if((Invoke-Pester -Strict -PassThru).FailedCount -ne 0) {
             Throw 'Failed  unit tests.'
           }
+
+        # analiza kody - Super Linter
+      - name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_JSON: false
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # publikacja do repozytorium
-      # - name: Publish
-      #   env:
-      #     # pobranie do zmiennej klucza API
-      #     NuGetApiKey: ${{ secrets.NUGET_KEY }}
-      #   shell: pwsh
-      #   run: |
-      #     Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
+      - name: Publish
+        env:
+          # pobranie do zmiennej klucza API
+          NuGetApiKey: ${{ secrets.NUGET_KEY }}
+        shell: pwsh
+        run: |
+          Publish-Module -Path $env:GITHUB_WORKSPACE -NuGetApiKey $env:NuGetApiKey
