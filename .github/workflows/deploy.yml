@@ -43,6 +43,11 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lint Output
+        shell: pwsh
+        run: |
+          Get-Content -Path .\super-linter.log | ConvertFrom-Json
+
       # publikacja do repozytorium
       - name: Publish
         env:
