@@ -39,14 +39,15 @@ jobs:
         uses: github/super-linter@v3
         env:
           VALIDATE_JSON: false
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint Output
         shell: pwsh
         run: |
-          Get-Content -Path .\super-linter.log | ConvertFrom-Json
+          Get-ChildItem ,\
+          Get-Content -Path .\super-linter.log
 
       # publikacja do repozytorium
       - name: Publish
