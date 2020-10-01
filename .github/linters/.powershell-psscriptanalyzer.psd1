@@ -7,5 +7,6 @@
     ExcludeRules = @(
         'PSUseDeclaredVarsMoreThanAssignments'
         , 'PSAvoidOverwritingBuiltInCmdlets'
+        , 'PSUseToExportFieldsInManifest'
     )
 }
