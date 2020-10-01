@@ -1,24 +1,27 @@
 
 function New-CustomVm
 {
-    [cmdletbinding()]
+    [cmdletbinding(SupportsShouldProcess)]
     param(
     )
 
-    try
+    if ($PSCmdlet.ShouldProcess("Target", "Operation"))
     {
-        # Remove-Item -Verbose -Path 'C:\mgotest.txt' -ErrorAction Stop
-        # ...
-        Write-Verbose -Message 'Verbose message'
+        try
+        {
+            # Remove-Item -Verbose -Path 'C:\mgotest.txt' -ErrorAction Stop
+            # ...
+            Write-Verbose -Message 'Verbose message'
 
-        # ...
-        Write-Warning -Message 'Warning message'
+            # ...
+            Write-Warning -Message 'Warning message'
 
-        1 / 0
-    }
-    catch
-    {
-        Write-Error -Message $_.Exception.Message
+            1 / 0
+        }
+        catch
+        {
+            Write-Error -Message $_.Exception.Message
+        }
     }
 }
 Import-Module PSEasyLog
