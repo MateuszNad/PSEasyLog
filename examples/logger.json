@@ -1,15 +1,4 @@
-﻿{
-    "DateTime":  "wtorek, 15 września 2020 21:25:17",
-    "Stream":  "Verbose",
-    "Message":  "Verbose message"
-}
-{
-    "DateTime":  "wtorek, 15 września 2020 21:25:17",
-    "Stream":  "Warning",
-    "Message":  "Warning message"
-}
-{
-    "DateTime":  "wtorek, 15 września 2020 21:25:17",
-    "Stream":  "Error",
-    "Message":  "Nastąpiła próba podzielenia przez zero."
-}
+{"DateTime":"piątek, 9 kwietnia 2021 15:13:26","Stream":"Verbose","ScriptName":"C:\\Users\\Lenovo\\Documents\\Projekty\\12_PowerShell\\15_Repositories\\PSEasyLog\\examples\\example-1.ps1","ScriptLineNumber":14,"Message":"Verbose message"}
+{"DateTime":"piątek, 9 kwietnia 2021 15:13:26","Stream":"Warning","ScriptName":"C:\\Users\\Lenovo\\Documents\\Projekty\\12_PowerShell\\15_Repositories\\PSEasyLog\\examples\\example-1.ps1","ScriptLineNumber":17,"Message":"Warning message"}
+{"DateTime":"piątek, 9 kwietnia 2021 15:13:26","Stream":"Error","ScriptName":"C:\\Users\\Lenovo\\Documents\\Projekty\\12_PowerShell\\15_Repositories\\PSEasyLog\\examples\\example-1.ps1","ScriptLineNumber":23,"Message":"Attempted to divide by zero."}
+{"DateTime":"piątek, 9 kwietnia 2021 15:35:19","Stream":"Error","ScriptName":"C:\\Users\\Lenovo\\Documents\\Projekty\\12_PowerShell\\15_Repositories\\PSEasyLog\\examples\\example-1.ps1","ScriptLineNumber":23,"Message":"Cannot find path 'C:\\mgotest.txt' because it does not exist."}

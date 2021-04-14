@@ -9,7 +9,7 @@ function New-CustomVm
     {
         try
         {
-            # Remove-Item -Verbose -Path 'C:\mgotest.txt' -ErrorAction Stop
+            Remove-Item -Verbose -Path 'C:\mgotest.txt' -ErrorAction Stop
             # ...
             Write-Verbose -Message 'Verbose message'
 
@@ -24,5 +24,5 @@ function New-CustomVm
         }
     }
 }
-Import-Module PSEasyLog
+# Import-Module PSEasyLog
 New-CustomVm

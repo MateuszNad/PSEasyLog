@@ -88,11 +88,13 @@ function Write-Error
             }
 
             $Log = [PSCustomObject]@{
-                'DateTime' = (Get-Date).DateTime
-                'Stream'   = 'Error'
-                'Message'  = $Message
+                'DateTime'         = (Get-Date).DateTime
+                'Stream'           = 'Error'
+                'ScriptName'       = $PSCmdlet.MyInvocation.ScriptName
+                'ScriptLineNumber' = $PSCmdlet.MyInvocation.ScriptLineNumber
+                'Message'          = $Message
             }
-            Add-Content -Encoding UTF8 -Value ($Log | ConvertTo-Json) -Path $FilePath
+            Add-Content -Encoding UTF8 -Value ($Log | ConvertTo-Json -Compress) -Path $FilePath
 
             $outBuffer = $null
             if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer))
